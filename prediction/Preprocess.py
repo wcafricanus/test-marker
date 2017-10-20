@@ -17,9 +17,9 @@ def centralize_image(image):
     image.fill(0.)
     height, width = np.shape(image)
     offset_x = ((width - (rect[0] + rect[2])) - rect[0]) // 2
-    shift_x = max(0, offset_x)
+    shift_x = offset_x
     offset_y = ((height - (rect[1] + rect[3])) - rect[1]) // 2
-    shift_y = max(0, offset_y)
+    shift_y = offset_y
     image[rect[1] + shift_y:rect[1] + rect[3] + shift_y, rect[0] + shift_x:rect[0] + rect[2] + shift_x] = \
         image_copy[rect[1]:rect[1] + rect[3], rect[0]:rect[0] + rect[2]]
 
