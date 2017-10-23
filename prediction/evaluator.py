@@ -1,5 +1,5 @@
 import numpy as np
-
+import os
 import prediction.network as network3
 from prediction.network import Network, ReLU
 
@@ -7,6 +7,7 @@ from prediction.network import Network, ReLU
 import theano
 import theano.tensor as T
 mini_batch_size = 1
+
 
 class Evaluator(object):
     def __init__(self):
@@ -23,7 +24,8 @@ class Evaluator(object):
             network3.FullyConnectedLayer(n_in=40 * 4 * 4, n_out=100, activation_fn=ReLU),
             network3.SoftmaxLayer(n_in=100, n_out=10)], mini_batch_size)
 
-        all_params = np.load('cnnparams.npy')
+        cwd = os.path.dirname(__file__)
+        all_params = np.load(cwd + '/cnnparams.npy')
         j = 0
         for layer in self.net.layers:
             layer.w = all_params[j]

@@ -14,8 +14,8 @@ def evaluator():
 
 @pytest.fixture
 def test_dict():
-    cwd = os.getcwd()
-    with open(cwd+'/test/test1.txt', 'r') as myfile:
+    cwd = os.path.dirname(__file__)
+    with open(cwd+'/test2.txt', 'r') as myfile:
         data = json.load(myfile)
     data = data['test']['vasCogBlock']
     return preprocess_data(data)
