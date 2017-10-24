@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 
 
-def render_image(points_list):
-    image = draw_greyscale_digit(points_list)
+def render_image(points_list, width, height):
+    image = draw_greyscale_digit(points_list, width, height)
     centralize_image(image)
     return image
 
@@ -29,9 +29,9 @@ def strip_label(point_list):
     return result
 
 
-def draw_greyscale_digit(points_list):
+def draw_greyscale_digit(points_list, width, height):
     # Create a black image
-    img = np.zeros((162, 180, 1), np.float32)
+    img = np.zeros((height, width, 1), np.float32)
     img.fill(0.)
 
     processed_array = [np.array(item, np.int32).reshape((-1, 1, 2)) for item in points_list]
@@ -42,16 +42,33 @@ def draw_greyscale_digit(points_list):
     return img
 
 
-def preprocess_data(data):
+def preprocess_data(vas_cog_block, vas_block_size):
+    width = vas_block_size['width']
+    height = vas_block_size['height']
+    data = vas_cog_block
     result = {}
     for key in sorted([int(key) for key in data.keys()]):
         paths = data[str(key)]['pathList']
         correct_num = data[str(key)]['vasQues']
         if paths:
-            points_list = [strip_label(item['pointList']) for item in paths]
-            image = render_image(points_list)
+            image = build_image_from_paths(paths, width, height)
             result[key] = (image, correct_num)
         else:
             result[key] = (None, correct_num)
-
     return result
+
+
+def preprocess_single_data(vas_cog_block, vas_block_size):
+    paths = vas_cog_block['pathList']
+    correct_num = vas_cog_block['vasQues']
+    width = vas_block_size['width']
+    height = vas_block_size['height']
+    image = build_image_from_paths(paths, width, height)
+    result = {0: (image, correct_num)}
+    return result
+
+
+def build_image_from_paths(paths, width, height):
+    points_list = [strip_label(item['pointList']) for item in paths]
+    image = render_image(points_list, width, height)
+    return image
