@@ -36,8 +36,8 @@ def draw_greyscale_digit(points_list, width, height):
 
     processed_array = [np.array(item, np.int32).reshape((-1, 1, 2)) for item in points_list]
 
-    img = cv2.polylines(img, processed_array, False, 0.99, 7)
-    img = cv2.resize(img, (28, 28))
+    img = cv2.polylines(img, processed_array, False, 0.99, 10)
+    img = cv2.resize(img, (28, 28), interpolation=cv2.INTER_AREA)
 
     return img
 
