@@ -1,12 +1,9 @@
 # encoding: UTF-8
 
-import tensorflow as tf
-import numpy as np
 import os
-import cv2
-import matplotlib.pyplot as plt
-from matplotlib import ticker
-from tensorflow.examples.tutorials.mnist import input_data as mnist_data
+
+import numpy as np
+import tensorflow as tf
 
 
 class Evaluator(object):
