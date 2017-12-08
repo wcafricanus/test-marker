@@ -1,6 +1,6 @@
 from flask import Flask
 
-from prediction.evaluator import Evaluator
+from prediction.evaluator_tf import Evaluator
 
 app = Flask(__name__)
 app.evaluator = Evaluator()

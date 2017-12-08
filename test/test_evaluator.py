@@ -3,7 +3,7 @@ import os
 import pytest
 
 from prediction.Preprocess import strip_label, draw_greyscale_digit, preprocess_data, preprocess_single_data
-from prediction.evaluator import Evaluator
+from prediction.evaluator_tf import Evaluator
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def evaluator():
 @pytest.fixture
 def test_dict():
     cwd = os.path.dirname(__file__)
-    with open(cwd+'/test2.txt', 'r') as myfile:
+    with open(cwd+'/test3.txt', 'r') as myfile:
         data = json.load(myfile)
     vas_cog_block = data['test']['vasCogBlock']
     vas_block_size = data['test']['vasBlockSize']

@@ -4,7 +4,41 @@ import cv2
 
 def render_image(points_list, width, height):
     image = draw_greyscale_digit(points_list, width, height)
+    image = rescale_image(image)
     centralize_image(image)
+    return image
+
+
+def rescale_image(image):
+    image = np.reshape(image, (image.shape[0],image.shape[1]))
+    ret, im_th = cv2.threshold(image, 0.1, 1.0, cv2.THRESH_BINARY)
+    im_th_uint = im_th.astype(np.dtype('u1'))
+    points = cv2.findNonZero(im_th_uint)
+    rect = cv2.boundingRect(points)
+
+    width = image.shape[1]
+    height = image.shape[0]
+    digit_width = rect[2]
+    digit_height = rect[3]
+
+    if digit_height/height>0.6:
+        h = 0.6*height/digit_height
+    else:
+        h = 1
+    if digit_width/width>0.6:
+        w = 0.6*width/digit_width
+    else:
+        w = 1
+
+    new_width = int(width*w)
+    new_height = int(height*h)
+    dim = (new_width, new_height)
+
+    resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
+    image.fill(0.)
+    image[:resized.shape[0],:resized.shape[1]] = resized
+    image = cv2.resize(image, (28, 28), interpolation=cv2.INTER_AREA)
+
     return image
 
 
@@ -36,8 +70,7 @@ def draw_greyscale_digit(points_list, width, height):
 
     processed_array = [np.array(item, np.int32).reshape((-1, 1, 2)) for item in points_list]
 
-    img = cv2.polylines(img, processed_array, False, 0.99, 10)
-    img = cv2.resize(img, (28, 28), interpolation=cv2.INTER_AREA)
+    img = cv2.polylines(img, processed_array, False, 1.0, 12)
 
     return img
 
