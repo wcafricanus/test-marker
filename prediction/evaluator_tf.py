@@ -31,7 +31,7 @@ class Evaluator(object):
         predictions = np.argmax(Y_output, 1)
         print(predictions)
         for i in range(len(keys)):
-            is_correct = predictions[i] == labels[i]
+            is_correct = predictions[i] == labels[i] and test_dict[keys[i]][0] is not None
             result[keys[i]] = str(is_correct)
             # if predictions[i] != labels[i]:
             #     plt.figure(1)
