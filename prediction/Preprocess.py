@@ -81,8 +81,8 @@ def preprocess_data(vas_cog_block, vas_block_size):
     data = vas_cog_block
     result = {}
     for key in sorted([int(key) for key in data.keys()]):
-        paths = data[str(key)]['pathList']
-        correct_num = data[str(key)]['vasQues']
+        paths = data[str(key)]['path_list']
+        correct_num = data[str(key)]['vas_ques']
         if paths:
             image = build_image_from_paths(paths, width, height)
             result[key] = (image, correct_num)
@@ -92,8 +92,8 @@ def preprocess_data(vas_cog_block, vas_block_size):
 
 
 def preprocess_single_data(vas_cog_block, vas_block_size):
-    paths = vas_cog_block['pathList']
-    correct_num = vas_cog_block['vasQues']
+    paths = vas_cog_block['path_list']
+    correct_num = vas_cog_block['vas_ques']
     width = vas_block_size['width']
     height = vas_block_size['height']
     image = build_image_from_paths(paths, width, height)
@@ -102,6 +102,6 @@ def preprocess_single_data(vas_cog_block, vas_block_size):
 
 
 def build_image_from_paths(paths, width, height):
-    points_list = [strip_label(item['pointList']) for item in paths]
+    points_list = [strip_label(item['point_list']) for item in paths]
     image = render_image(points_list, width, height)
     return image
